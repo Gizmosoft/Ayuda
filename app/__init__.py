@@ -12,10 +12,11 @@ def create_app():
     app.mongo = mongo
 
     # Importing API modules
-    from app.api import user_api, auth_api
+    from app.api import user_api, auth_api, admin_api
 
     # Register Blueprints or add routes from your API
     app.register_blueprint(user_api.blueprint)
     app.register_blueprint(auth_api.blueprint)
+    app.register_blueprint(admin_api.blueprint)
 
     return app

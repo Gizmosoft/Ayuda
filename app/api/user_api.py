@@ -1,4 +1,5 @@
 from flask import request, jsonify, Blueprint, current_app
+from ..utils.date_time import get_datetime
 
 blueprint = Blueprint('user_api', __name__)
 
@@ -10,6 +11,7 @@ def submit_profile():
         mongo = current_app.mongo
         # Assuming the user data is sent in a JSON format
         user_data = request.json
+        user_data['last_login'] = get_datetime()
         print(user_data)
         # Insert the data into the 'Users' collection
         user_id = mongo.db.Users.insert_one(user_data).inserted_id
