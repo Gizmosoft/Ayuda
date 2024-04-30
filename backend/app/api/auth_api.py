@@ -61,6 +61,9 @@ def code_login():
     else:
         return jsonify({"message": "Invalid Access Code", "status": "error"}), 401
 
+'''
+This API endpoint logs users based on their email ID
+'''
 @blueprint.route('/login', methods=['POST'])
 def email_login():
     data = request.json
