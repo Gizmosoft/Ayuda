@@ -1,9 +1,15 @@
 from flask import Flask
 from .database.db import get_mongodb
+from flask_cors import CORS
 
 def create_app():
     app = Flask(__name__)
     # configure app here with app.config settings
+
+    # Enable CORS for all routes and set specific origins
+    cors = CORS(app, origins=[
+        "http://localhost:3000/",
+    ])
 
     # Initialize MongoDB
     mongo = get_mongodb(app)
