@@ -1,7 +1,7 @@
 import React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 
-export const BalloonNotif = ({ open, onClose }) => {
+export const BalloonNotif = ({ open, onClose, message}) => {
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -16,7 +16,7 @@ export const BalloonNotif = ({ open, onClose }) => {
         open={open}
         autoHideDuration={5000}
         onClose={handleClose}
-        message="Entered Access Code is not correct!"
+        message={message}
       />
     </div>
   );

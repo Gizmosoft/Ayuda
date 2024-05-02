@@ -15,7 +15,7 @@ users = {
 
 # access_codes = ["PassApr11", "Code0Ayuda"]
 
-# NEU mail domain
+# Accepted mail domain
 accepted_mail_domain = "@northeastern.edu"
 
 # registered emails
@@ -83,6 +83,7 @@ def email_login():
             {"_id": user["_id"]},
             {"$set": {"last_login": get_datetime()}}
         )
-        return jsonify({"message": "Email found in DB, redirecting to homepage", "status": "success"}), 200
+        user['_id'] = str(user['_id'])  # Convert ObjectId to string
+        return jsonify(user), 200
     else:
         return jsonify({"message": "Email not found in DB, redirecting to profile builder page", "status": "error"}), 400
