@@ -87,3 +87,23 @@ def email_login():
         return jsonify(user), 200
     else:
         return jsonify({"message": "Email not found in DB, redirecting to profile builder page", "status": "error"}), 400
+
+'''
+    This API registers user to the app by creating a User model on the DB
+'''
+@blueprint.route('/register', methods=['POST'])
+def register():
+    if request.method == 'POST':
+        # get mongo instance
+        mongo = current_app.mongo
+        # Assuming the user data is sent in a JSON format
+        user_data = request.json
+        user_data['last_login'] = get_datetime()
+        print(user_data)
+        # Insert the data into the 'Users' collection
+        user_id = mongo.db.Users.insert_one(user_data).inserted_id
+
+        # Return a success response
+        return jsonify({"message": "Profile submitted successfully", "user_id": str(user_id)}), 201
+    else:
+        return jsonify({"error": "Method not allowed"}), 405

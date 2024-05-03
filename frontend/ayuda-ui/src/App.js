@@ -3,6 +3,7 @@ import './components/Navbar/Navbar.js';
 import Navbar from './components/Navbar/Navbar.js';
 import { Access } from './pages/Auth/Access';
 import { Login } from './pages/Auth/Login';
+import Signup from './pages/Auth/Signup';
 import { Maintenance } from './pages/Maintenance/Maintenance.js';
 import {BrowserRouter as Router, Route, Routes} from  'react-router-dom';
 
@@ -27,7 +28,7 @@ function App() {
               </Route>
               <Route path='/signup' element={
                 <>
-                  <Maintenance />
+                  <Signup />
                 </>
               }>
               </Route>

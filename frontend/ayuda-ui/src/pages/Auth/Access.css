@@ -7,6 +7,7 @@
     box-shadow: 0 0 0 #fff;
     border-radius: 2%;
     border-color: #fff;
+    margin-bottom: 10px;
 }
 
 .accessCodeSubmit {
@@ -26,4 +27,10 @@
     font-size: small;
     text-decoration: underline;
     color: #fff;
+}
+
+.signup {
+    border: 2px solid #fff;
+    border-radius: 20px;
+    padding: 50px 20px 50px 20px;
 }
