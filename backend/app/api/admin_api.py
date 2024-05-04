@@ -1,5 +1,8 @@
 from flask import request, jsonify, Blueprint, current_app
 from ..database.db import get_config
+from ..utils.api_base_route import get_api_base_route
+
+baseRoute = get_api_base_route()
 
 blueprint = Blueprint('admin_api', __name__)
 
@@ -13,7 +16,7 @@ access_code = {
     'validity'
 }
 '''
-@blueprint.route('/admin/add-code', methods=['POST'])
+@blueprint.route(baseRoute + '/admin/add-code', methods=['POST'])
 def add_access_codes():
     if request.method == 'POST':
         # get mongo instance

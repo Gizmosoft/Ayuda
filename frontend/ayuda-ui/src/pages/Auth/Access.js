@@ -22,7 +22,7 @@ export const Access = () => {
     console.log(accessCode);
     try {
       // Make a POST request to your API endpoint with the access code
-      const response = await axios.post(baseUrl + "/access", {
+      const response = await axios.post(baseUrl + "/auth/access", {
         access_code: accessCode,
       });
       navigate('/signup')

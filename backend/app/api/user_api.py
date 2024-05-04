@@ -11,6 +11,7 @@ def get_user_by_email():
     if request.method == 'GET':
         user_data = request.json
         email = user_data.get('email')
+        print(email)
         # get mongo instance
         mongo = current_app.mongo
         user = mongo.db.Users.find_one({"email": email})

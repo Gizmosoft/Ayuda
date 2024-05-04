@@ -19,9 +19,13 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
+    console.log(emailId);
     try {
       // TODO: Check if the email is existing, if yes then redirect to Login page ('/login)
-      
+      const user = await axios.get(baseUrl + "/users/get-user", {
+        email: emailId,
+      });
+      console.log(user);
       // TODO: Store user model in UserDB and redirect user to Dashboard ('/dashboard)
       navigate("/dashboard");
     } catch (error) {

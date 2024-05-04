@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify, Blueprint, current_app
 import requests
 from ..database.db import get_config
 from ..utils.date_time import get_datetime
+from ..utils.api_base_route import get_api_base_route
+
+baseRoute = get_api_base_route()
 
 blueprint = Blueprint('auth_api', __name__)
 
@@ -24,7 +27,7 @@ registered_users = ["vijayakumarhebbar.k@northeastern.edu", "sahay.r@northeaster
 '''
 Get all access codes from DB
 '''
-@blueprint.route('/codes', methods=['GET'])
+@blueprint.route(baseRoute + '/auth/codes', methods=['GET'])
 def get_access_codes():
     mongo = current_app.mongo
     codes = mongo.db.AccessCodes.find()
@@ -37,7 +40,7 @@ def get_access_codes():
 '''
 The below method logs users in based on the access code entered
 '''
-@blueprint.route('/access', methods=['POST'])
+@blueprint.route(baseRoute + '/auth/access', methods=['POST'])
 def code_login():
     data = request.json
     access_code = data.get('access_code')
@@ -64,7 +67,7 @@ def code_login():
 '''
 This API endpoint logs users based on their email ID
 '''
-@blueprint.route('/login', methods=['POST'])
+@blueprint.route(baseRoute + '/auth/login', methods=['POST'])
 def email_login():
     data = request.json
     email = data.get('email')
@@ -91,7 +94,7 @@ def email_login():
 '''
     This API registers user to the app by creating a User model on the DB
 '''
-@blueprint.route('/register', methods=['POST'])
+@blueprint.route(baseRoute + '/auth/register', methods=['POST'])
 def register():
     if request.method == 'POST':
         # get mongo instance

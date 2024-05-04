@@ -20,7 +20,7 @@ export const Login = () => {
     e.preventDefault(); // Prevent default form submission behavior
     try {
       // Make a POST request to your API endpoint with the access code
-      const response = await axios.post(baseUrl + "/login", {
+      const response = await axios.post(baseUrl + "/auth/login", {
         email: emailId,
       });
       console.log(response.data);
