@@ -8,19 +8,20 @@ baseRoute = get_api_base_route()
 
 @blueprint.route(baseRoute + '/users/get-user', methods=['GET'])
 def get_user_by_email():
-    if request.method == 'GET':
-        user_data = request.json
-        email = user_data.get('email')
+    email = request.args.get('email')
+    if email:
         print(email)
         # get mongo instance
         mongo = current_app.mongo
         user = mongo.db.Users.find_one({"email": email})
         if user:
+            user['last_login'] = get_datetime()
             user['_id'] = str(user['_id'])  # Convert ObjectId to string
             return jsonify(user), 200
         else:
             return jsonify({"error": "User not found"}), 404
-
+    else:
+        return jsonify({"error": "Email parameter is required"}), 400
 
 @blueprint.route('/submit-profile', methods=['POST'])
 def submit_profile():
