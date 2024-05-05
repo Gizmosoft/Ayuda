@@ -21,19 +21,23 @@ const Signup = () => {
     e.preventDefault(); // Prevent default form submission behavior
     console.log(emailId);
     try {
-      // TODO: Check if the email is existing, if yes then Login ('/login)
-      const user = await axios.get(baseUrl + "/users/get-user", {
-        params: {
+        const response = await axios.get(`${baseUrl}/users/get-user`, {
+          params: {
             email: emailId,
+          }
+        });
+    
+        console.log(response.data); // Log the user data from the server
+        // TODO: Store user in Session and login
+        navigate("/dashboard");
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          console.log("User not found in DB. Proceeding to create user model");
+          // TODO: Create User object in DB, then login and store user in session
+        } else {
+          console.error("Error:", error.response ? error.response.data : error.message);
         }
-      });
-      console.log(user);
-      // TODO: Store user model in UserDB and redirect user to Dashboard ('/dashboard)
-      navigate("/dashboard");
-    } catch (error) {
-      // Handle errors
-      console.error("Error:", error);
-    }
+      }
   };
 
   return (

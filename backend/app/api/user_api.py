@@ -9,19 +9,27 @@ baseRoute = get_api_base_route()
 @blueprint.route(baseRoute + '/users/get-user', methods=['GET'])
 def get_user_by_email():
     email = request.args.get('email')
-    if email:
-        print(email)
-        # get mongo instance
-        mongo = current_app.mongo
-        user = mongo.db.Users.find_one({"email": email})
-        if user:
-            user['last_login'] = get_datetime()
-            user['_id'] = str(user['_id'])  # Convert ObjectId to string
-            return jsonify(user), 200
-        else:
-            return jsonify({"error": "User not found"}), 404
-    else:
+    if not email:
         return jsonify({"error": "Email parameter is required"}), 400
+
+    mongo = current_app.mongo
+    # Perform an update in the database to set the last_login time
+    update_result = mongo.db.Users.update_one(
+        {"email": email},
+        {"$set": {"last_login": get_datetime()}}
+    )
+
+    # Check if the update was successful (i.e., if any document was actually found and updated)
+    if update_result.matched_count == 0:
+        return jsonify({"error": "User not found"}), 404
+
+    # Retrieve the updated user to return in response
+    user = mongo.db.Users.find_one({"email": email})
+    if user:
+        user['_id'] = str(user['_id'])  # Convert ObjectId to string
+        return jsonify(user), 200
+    else:
+        return jsonify({"error": "User not found after update"}), 404
 
 @blueprint.route('/submit-profile', methods=['POST'])
 def submit_profile():
