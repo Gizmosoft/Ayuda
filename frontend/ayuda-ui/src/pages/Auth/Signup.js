@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import "./Access.css";
-import getBaseUrl from "../../utils/BaseUrl";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { saveUserToSessionStorage, loadUserFromSessionStorage } from "../../utils/SessionHandler.js";
+import { useNavigate } from "react-router-dom";
+import { saveUserToSessionStorage } from "../../utils/SessionHandler.js";
+import { getUserByEmailId } from "../../api/UserRequests.js";
+import { registerUser } from "../../api/AuthRequests.js";
 
 const Signup = () => {
   const [emailId, setEmailId] = useState("");
   const [userName, setUserName] = useState("");
-  const baseUrl = getBaseUrl();
   const navigate = useNavigate();
 
   const handleEmailAddressChange = (e) => {
@@ -22,11 +21,12 @@ const Signup = () => {
     e.preventDefault(); // Prevent default form submission behavior
     console.log(emailId);
     try {
-        const response = await axios.get(`${baseUrl}/users/get-user`, {
-          params: {
-            email: emailId,
-          }
-        });
+        // const response = await axios.get(`${baseUrl}/users/get-user`, {
+        //   params: {
+        //     email: emailId,
+        //   }
+        // });
+        const response = await getUserByEmailId(emailId);
         const userObject = response.data
         console.log(userObject);
         console.log('User found in DB, redirecting to Dashboard...');
@@ -36,16 +36,19 @@ const Signup = () => {
       } catch (error) {
         if (error.response && error.response.status === 404) {
           console.log("User not found in DB. Proceeding to create user model");
-          // TODO: Create User object in DB, then login and store user in session
+          // Create User object in DB, then login and store user in session
           const userObject = {
             name: userName,
             email: emailId
           }
           try {
-            const response = await axios.post(baseUrl + '/auth/register', userObject);
+            // Register the new user
+            const response = await registerUser(userObject);
             console.log('Server response: ', response);
             console.log('New user created! Redirecting to dashboard...');
-            saveUserToSessionStorage(userObject);
+            // get the new user to store in the session
+            const user = await getUserByEmailId(userObject['email']);
+            saveUserToSessionStorage(user.data);
             navigate("/dashboard");
           } catch (error) {
             console.error('There was an error!', error);

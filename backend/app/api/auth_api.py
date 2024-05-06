@@ -101,6 +101,11 @@ def register():
         mongo = current_app.mongo
         # Assuming the user data is sent in a JSON format
         user_data = request.json
+
+        # check if the entered email is an accepted email domain
+        if not user_data['email'].endswith(accepted_mail_domain):
+            return jsonify({"message": "Use Northeastern Email ID only", "status": "error"}), 401
+            
         user_data['last_login'] = get_datetime()
         print(user_data)
         # Insert the data into the 'Users' collection
