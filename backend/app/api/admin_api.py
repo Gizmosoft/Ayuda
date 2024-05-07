@@ -1,6 +1,7 @@
 from flask import request, jsonify, Blueprint, current_app
 from ..database.db import get_config
 from ..utils.api_base_route import get_api_base_route
+import pandas as pd
 
 baseRoute = get_api_base_route()
 
@@ -43,3 +44,28 @@ def add_access_codes():
         return jsonify({"message": "Access Code added successfully", "id": str(result.inserted_id)}), 201
     else:
         return jsonify({"error": "Method not allowed"}), 405
+
+'''
+    This API is used to populate Courses collection with data present in the mgen_courses.csv
+'''
+@blueprint.route(baseRoute + '/admin/upload-courses', methods=['POST'])
+def upload_courses():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    if file and file.filename.endswith('.csv'):
+        data = pd.read_csv(file)
+        mongo = current_app.mongo
+
+        # Convert DataFrame to dictionary
+        data_dict = data.to_dict(orient='records')
+
+        # Insert documents into MongoDB
+        result = mongo.db.Courses.insert_many(data_dict)
+        return jsonify({"message": f"Inserted {len(result.inserted_ids)} documents."}), 201
+    
+    return jsonify({"error": "Unsupported file type"}), 400
