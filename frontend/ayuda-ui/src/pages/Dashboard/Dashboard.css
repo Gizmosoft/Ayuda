@@ -1,0 +1,12 @@
+.recommend-button {
+    color: #fff;
+    font-size: 20px;
+    width: 250px;
+    height: 60px;
+    border: none;
+    margin: 20px;
+    padding: 0;
+    background-color: #FFDE8B;
+    border-radius: 7px;
+    cursor: pointer;
+}

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Access.css";
-import axios from "axios";
 import getBaseUrl from "../../utils/BaseUrl";
 import { BalloonNotif } from "../../components/Notifs/BalloonNotif.js";
+import { saveUserToSessionStorage } from "../../utils/SessionHandler.js";
+import { getUserByEmailId } from "../../api/UserRequests.js";
 
 export const Login = () => {
   const [emailId, setEmailId] = useState("");
@@ -19,11 +20,10 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
     try {
-      // Make a POST request to your API endpoint with the access code
-      const response = await axios.post(baseUrl + "/auth/login", {
-        email: emailId,
-      });
+      // GET User by Email
+      const response = await getUserByEmailId(emailId)
       console.log(response.data);
+      saveUserToSessionStorage(response.data);
       // TODO: Store user in session
       navigate("/dashboard");
     } catch (error) {

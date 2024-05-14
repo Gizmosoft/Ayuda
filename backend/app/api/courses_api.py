@@ -37,6 +37,5 @@ def get_course_by_courseid():
 def get_course_recommendations():
     mongo = current_app.mongo
     courses_data = recommend_driver()
-    # courses_data = json.dumps(courses_data, indent=4)
 
     return courses_data

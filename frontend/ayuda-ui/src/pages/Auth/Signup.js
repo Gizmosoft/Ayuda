@@ -21,11 +21,6 @@ const Signup = () => {
     e.preventDefault(); // Prevent default form submission behavior
     console.log(emailId);
     try {
-        // const response = await axios.get(`${baseUrl}/users/get-user`, {
-        //   params: {
-        //     email: emailId,
-        //   }
-        // });
         const response = await getUserByEmailId(emailId);
         const userObject = response.data
         console.log(userObject);

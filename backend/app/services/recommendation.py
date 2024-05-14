@@ -50,4 +50,5 @@ def recommend_driver():
     })
 
     recommendations = sort_dataframe(recommendation_df, sortBy='similarity_score', ascending=False)
+    print(recommendations)
     return recommendations.to_json()
