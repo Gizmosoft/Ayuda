@@ -1,12 +1,39 @@
 .user-section {
-    text-align: left;
-    border: 2px solid #fff;
-    border-radius: 20px;
-    padding: 50px 40px 50px 40px;
-    font-size: 20px;
-    width: 100%;
+  text-align: left;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  padding: 50px 40px 50px 40px;
+  font-size: 20px;
+  width: 100%;
 }
 
 .welcome-header {
-    font-size: 40px;
+  font-size: 40px;
+}
+
+/* Skill bubbles */
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: #2d2d2d; /* Background color similar to your image */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.skill-bubble {
+  display: flex;
+  align-items: center;
+  background-color: #444;
+  color: #ccc;
+  border: 1px solid #666;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.remove-button {
+  margin-left: 10px;
+  color: #ff6666;
+  cursor: pointer;
 }
