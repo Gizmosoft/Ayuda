@@ -78,4 +78,5 @@ print("Recommendations for", user['user_name'])
 
 # Print course names along with similarity scores
 for idx, row in result_df.iterrows():
-    print(f"{row['Course ID']}: {row['Course Name']}: {row['Similarity Score']}")
+    if (row['Similarity Score']>0.2):
+        print(f"{row['Course ID']}: {row['Course Name']}: {row['Similarity Score']}")
