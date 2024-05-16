@@ -9,9 +9,14 @@ const UserProfile = () => {
   const [user, setUser] = useState(null); // Directly store user object
 
   const [skills, setSkills] = useState([]);
+  const [domains, setDomains] = useState([]);
 
   const removeSkill = (skillToRemove) => {
     setSkills(skills.filter((skill) => skill !== skillToRemove));
+  };
+
+  const removeDomain = (domainToRemove) => {
+    setDomains(domains.filter((domain) => domain !== domainToRemove));
   };
 
   useEffect(() => {
@@ -22,6 +27,7 @@ const UserProfile = () => {
           const userData = await getUserByEmailId(userEmail);
           setUser(userData.data);
           setSkills(userData.data.skills);
+          setDomains(userData.data.career_path);
         } catch (error) {
           console.error("Failed to fetch user data:", error);
           setUser(undefined);
@@ -46,8 +52,8 @@ const UserProfile = () => {
         <ul>
           <div className="skills-container">
             Skills:
-            {user
-              ? user.skills.map((skill, index) => (
+            {user && skills.length > 0
+              ? skills.map((skill, index) => (
                   // <li key={index}>{skill}</li>
                   <div key={index} className="skill-bubble">
                     {skill}
@@ -55,20 +61,34 @@ const UserProfile = () => {
                       className="remove-button"
                       onClick={() => removeSkill(skill)}
                     >
-                      X
+                      x
                     </span>
                   </div>
                 ))
-              : "No skills to show"}
+              : " No skills to show"}
           </div>
         </ul>
+
         <ul>
-          Career Path:
-          {user
-            ? user.career_path.map((path, index) => <li key={index}>{path}</li>)
-            : "No skills to show"}
-        </ul>
-        {/* TODO: Make skills editable - add/remove */}
+            {/* TODO: Make skills editable - add/remove */}
+        <div className="skills-container">
+            Future Career Paths:
+            {user && domains.length > 0
+              ? domains.map((domain, index) => (
+                  // <li key={index}>{skill}</li>
+                  <div key={index} className="skill-bubble">
+                    {domain}
+                    <span
+                      className="remove-button"
+                      onClick={() => removeDomain(domain)}
+                    >
+                      x
+                    </span>
+                  </div>
+                ))
+              : " No Career Path Set"}
+          </div>
+          </ul>
       </div>
     </div>
   );
