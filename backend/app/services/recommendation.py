@@ -50,5 +50,6 @@ def recommend_driver():
     })
 
     recommendations = sort_dataframe(recommendation_df, sortBy='similarity_score', ascending=False)
-    print(recommendations)
-    return recommendations.to_json()
+    filtered_recommendations = recommendations[recommendations['similarity_score'] > 0.2]
+    print(filtered_recommendations)
+    return filtered_recommendations.to_json()
