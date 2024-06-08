@@ -51,5 +51,19 @@ def recommend_driver():
 
     recommendations = sort_dataframe(recommendation_df, sortBy='similarity_score', ascending=False)
     filtered_recommendations = recommendations[recommendations['similarity_score'] > 0.2]
-    print(filtered_recommendations)
-    return filtered_recommendations.to_json()
+
+    ## Convert to dictionary, then convert to dataframe
+    recommendation_dict = {
+        'course_id': filtered_recommendations['course_id'],
+        'course_name': filtered_recommendations['course_name'],
+        'similarity_score': filtered_recommendations['similarity_score']
+    }
+
+    dict_df = pd.DataFrame(recommendation_dict)
+    # convert the above dataframe to list of dicts
+    list_of_recomms = dict_df.to_dict(orient='records')
+
+    recomms = json.dumps(list_of_recomms, indent=4)
+    # return filtered_recommendations.to_json()
+    print(type(recomms))
+    return recomms

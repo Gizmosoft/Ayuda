@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { loadUserFromSessionStorage } from "../../utils/SessionHandler.js";
 import { getUserByEmailId } from "../../api/UserRequests.js";
 import "./UserProfile.css";
+import { Button } from "../Buttons/Button.js";
 
 const UserProfile = () => {
   const location = useLocation();
@@ -18,6 +19,13 @@ const UserProfile = () => {
   const removeDomain = (domainToRemove) => {
     setDomains(domains.filter((domain) => domain !== domainToRemove));
   };
+
+  const saveUser = () => {
+    // Save user profile using PATCH method
+    // The updated user must take skills and domains array and update them in the DB
+    
+    return;
+  }
 
   useEffect(() => {
     async function fetchUserData() {
@@ -89,6 +97,7 @@ const UserProfile = () => {
               : " No Career Path Set"}
           </div>
           </ul>
+          <Button buttonText="Save Profile" onClick={saveUser} />
       </div>
     </div>
   );

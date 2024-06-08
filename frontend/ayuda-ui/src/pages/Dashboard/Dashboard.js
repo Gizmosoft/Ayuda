@@ -26,8 +26,6 @@ export const Dashboard = () => {
     }
   };
 
-  //   console.log(Object.keys(recommendData.course_id).length, 'recommendData');
-
   return (
     <div>
       <UserProfile />
@@ -41,11 +39,13 @@ export const Dashboard = () => {
       />
       {loading && <p>Loading...</p>}
       {!loading && Object.keys(recommendData).length > 0 && (
-        <ul>
-          {Object.values(recommendData.course_id).map((id, index) => (
-            <li key={index}>{id}</li>
+        <div>
+          {recommendData.map((item, index) => (
+            <div   class="card" key={index}>
+              <div class="card-body">{JSON.stringify(item.course_id).replace(/['"]+/g, '')}: {JSON.stringify(item.course_name).replace(/['"]+/g, '')}</div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
       {!loading && Object.keys(recommendData).length === 0 && (
         <p>Click the button above to see recommendations</p>

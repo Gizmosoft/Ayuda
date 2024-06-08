@@ -47,3 +47,39 @@ def submit_profile():
         return jsonify({"message": "Profile submitted successfully", "user_id": str(user_id)}), 201
     else:
         return jsonify({"error": "Method not allowed"}), 405
+
+@blueprint.route(baseRoute + '/users/update-user', methods=['PATCH'])
+def update_user():
+    try:
+        data = request.json
+        email = data.get('email')
+        skills = data.get('skills')
+        career_path = data.get('career_path')
+
+        if not email or not skills or not career_path:
+            return jsonify({'error': 'Email, skills, and career path are required'}), 400
+
+        # Find the user by email
+        # get mongo instance
+        mongo = current_app.mongo
+        user = mongo.db.Users.find_one({'email': email})
+
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+
+        # Update the user's skills and career path
+        update_result = mongo.db.Users.update_one(
+            {'email': email},
+            {'$push': {
+                'skills': {'$each': skills}, 
+                'career_path': {'$each': career_path}
+                }}
+        )
+
+        if update_result.modified_count == 0:
+            return jsonify({'error': 'No changes made to the user'}), 400
+
+        return jsonify({'message': 'User updated successfully'}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

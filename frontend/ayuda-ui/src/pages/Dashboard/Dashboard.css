@@ -10,3 +10,15 @@
     border-radius: 7px;
     cursor: pointer;
 }
+
+.card {
+    color: #fff;
+    background: none;
+    border-color: #fff;
+    margin: 10px;
+}
+
+.card:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
