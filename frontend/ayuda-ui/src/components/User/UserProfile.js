@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { loadUserFromSessionStorage } from "../../utils/SessionHandler.js";
-import { getUserByEmailId } from "../../api/UserRequests.js";
+import { getUserByEmailId, updateUserById } from "../../api/UserRequests.js";
 import "./UserProfile.css";
 import { Button } from "../Buttons/Button.js";
+import { UserUpdatePopup } from "../Popups/UserUpdatePopup.js";
 
 const UserProfile = () => {
   const location = useLocation();
@@ -11,6 +12,8 @@ const UserProfile = () => {
 
   const [skills, setSkills] = useState([]);
   const [domains, setDomains] = useState([]);
+
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   const removeSkill = (skillToRemove) => {
     setSkills(skills.filter((skill) => skill !== skillToRemove));
@@ -20,11 +23,19 @@ const UserProfile = () => {
     setDomains(domains.filter((domain) => domain !== domainToRemove));
   };
 
+  const showPopup = () => {
+    setPopupVisible(true);
+  };
+
+  const closePopup = () => {
+    setPopupVisible(false);
+  };
+
   const saveUser = () => {
     // Save user profile using PATCH method
     // The updated user must take skills and domains array and update them in the DB
-    
-    return;
+    updateUserById(user.email, skills, domains);
+    showPopup();
   }
 
   useEffect(() => {
@@ -98,6 +109,11 @@ const UserProfile = () => {
           </div>
           </ul>
           <Button buttonText="Save Profile" onClick={saveUser} />
+          {
+            isPopupVisible && (
+              <UserUpdatePopup closePopup={closePopup} />
+            )
+          }
       </div>
     </div>
   );

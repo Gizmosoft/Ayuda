@@ -68,16 +68,18 @@ def update_user():
             return jsonify({'error': 'User not found'}), 404
 
         # Update the user's skills and career path
+        # If the skills in the array are not in user document, add them
+        # If the career_path in the array are not in user document, add them
         update_result = mongo.db.Users.update_one(
             {'email': email},
-            {'$push': {
-                'skills': {'$each': skills}, 
+            {'$addToSet': {
+                'skills': {'$each': skills},
                 'career_path': {'$each': career_path}
-                }}
+            }}
         )
 
         if update_result.modified_count == 0:
-            return jsonify({'error': 'No changes made to the user'}), 400
+            return jsonify({'error': 'No changes made to the user'}), 200
 
         return jsonify({'message': 'User updated successfully'}), 200
 

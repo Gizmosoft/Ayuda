@@ -13,8 +13,18 @@ export const getUserByEmailId = async (emailId) => {
 }
 
 export const updateUserById = async(emailId, skills, domains) => {
-  const response = await axios.patch(`${baseUrl}/users/update-user`, {
-    skills: skills,
-    career_path: domains,
-  });
+  try {
+    console.log(emailId);
+    console.log(skills);
+    console.log(domains);
+    const response = await axios.patch(`${baseUrl}/users/update-user`, {
+      email: emailId,
+      skills: skills,
+      career_path: domains
+    });
+    return response.data;
+  } catch(error) {
+    console.error('Error updating user:', error);
+    throw error; 
+  }
 }
