@@ -6,6 +6,7 @@ blueprint = Blueprint('user_api', __name__)
 
 baseRoute = get_api_base_route()
 
+
 @blueprint.route(baseRoute + '/users/get-user', methods=['GET'])
 def get_user_by_email():
     email = request.args.get('email')
@@ -31,6 +32,7 @@ def get_user_by_email():
     else:
         return jsonify({"error": "User not found after update"}), 404
 
+
 @blueprint.route('/submit-profile', methods=['POST'])
 def submit_profile():
     if request.method == 'POST':
@@ -47,6 +49,7 @@ def submit_profile():
         return jsonify({"message": "Profile submitted successfully", "user_id": str(user_id)}), 201
     else:
         return jsonify({"error": "Method not allowed"}), 405
+
 
 @blueprint.route(baseRoute + '/users/update-user', methods=['PATCH'])
 def update_user():
@@ -72,9 +75,9 @@ def update_user():
         # If the career_path in the array are not in user document, add them
         update_result = mongo.db.Users.update_one(
             {'email': email},
-            {'$addToSet': {
-                'skills': {'$each': skills},
-                'career_path': {'$each': career_path}
+            {'$set': {
+                'skills': skills,
+                'career_path': career_path
             }}
         )
 
