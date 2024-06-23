@@ -5,6 +5,8 @@ import { getUserByEmailId, updateUserById } from "../../api/UserRequests.js";
 import "./UserProfile.css";
 import { Button } from "../Buttons/Button.js";
 import { UserUpdatePopup } from "../Popups/UserUpdatePopup.js";
+import { SkillsSearchBar } from "../Search/SkillsSearchBar.js";
+import { DomainsSearchBar } from "../Search/DomainsSearchBar.js";
 
 const UserProfile = () => {
   const location = useLocation();
@@ -14,6 +16,16 @@ const UserProfile = () => {
   const [domains, setDomains] = useState([]);
 
   const [isPopupVisible, setPopupVisible] = useState(false);
+
+  // function to append skills from the search bar
+  const addSkills = (newSkills) => {
+    setSkills((prevSkills) => [...prevSkills, newSkills]);
+  }
+
+  // function to append career paths from the search bar
+  const addDomains = (newDomain) => {
+    setDomains((prevDomains) => [...prevDomains, newDomain]);
+  }
 
   const removeSkill = (skillToRemove) => {
     setSkills(skills.filter((skill) => skill !== skillToRemove));
@@ -68,6 +80,7 @@ const UserProfile = () => {
         </h5>
         <p>Email: {user ? user.email : "loading..."} </p>
         {/* TODO: Show user Skills */}
+        <SkillsSearchBar placeholder="Enter skills..." addSkills={addSkills} />
         <ul>
           <div className="skills-container">
             Skills:
@@ -86,8 +99,9 @@ const UserProfile = () => {
                 ))
               : " No skills to show"}
           </div>
-        </ul>
+        </ul><br />
 
+        <DomainsSearchBar placeholder="Enter career paths..." addDomains={addDomains} />
         <ul>
             {/* TODO: Make skills editable - add/remove */}
         <div className="skills-container">
