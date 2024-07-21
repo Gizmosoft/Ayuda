@@ -62,7 +62,7 @@ export const Login = () => {
           id="login"
         />
       </form>
-      <Link className="redirection-link" to="/">
+      <Link className="redirection-link" to="/access">
         Email not registered? Register
       </Link>
       <BalloonNotif

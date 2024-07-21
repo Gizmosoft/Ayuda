@@ -6,6 +6,7 @@ import { Login } from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
 import { Dashboard } from './pages/Dashboard/Dashboard.js';
 import { Maintenance } from './pages/Maintenance/Maintenance.js';
+import Home from './pages/Home/Home';
 import {BrowserRouter as Router, Route, Routes} from  'react-router-dom';
 
 function App() {
@@ -15,7 +16,13 @@ function App() {
         <Router>
           <Navbar />
             <Routes>
-              <Route path='/' element={
+            <Route path='/' element={
+                <>
+                  <Home />
+                </>
+              }>
+              </Route>
+              <Route path='/access' element={
                 <>
                   <Access />
                 </>
