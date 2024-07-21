@@ -41,6 +41,9 @@ export const Access = () => {
 
   return (
     <div>
+      <h3>Ayuda is currently an invite-only platform.</h3>
+      <hr className="hr-tag"/>
+      <p className="user-note">If you already have an access code for Ayuda, please enter it to proceed with Registration, else please write to the developer at <i>kartikey.hebbar@gmail.com</i> to request for an access code.</p>
       <form onSubmit={handleSubmit}>
         <input
           className="accessCode"

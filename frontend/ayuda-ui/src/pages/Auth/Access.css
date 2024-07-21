@@ -34,3 +34,17 @@
     border-radius: 20px;
     padding: 50px 40px 50px 40px;
 }
+
+.user-note {
+    font-size: 15px;
+    text-align: center;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.hr-tag {
+    border: 0;
+    height: 0.5px;
+    background: white; /* White color for the <hr> */
+    margin: 10px 0;
+}
